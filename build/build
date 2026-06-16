@@ -110,13 +110,13 @@ if [ "$clean" -ge 1 ]; then
 	*tmp*/*build*)
 		rm -rf "$build_dir" || panic "Could not clean build dir ${build_dir}.";;
 	*)
-		panic "Not cleaning build dir ${build_dir}. Does not look match *tmp*build.";;
+		panic "Not cleaning build dir ${build_dir}. Does not match '*tmp*/*build*'.";;
 	esac
 	case "$install_dir" in
 	*tmp*/*install*)
 		rm -rf "$install_dir" || panic "Could not clean install dir ${install_dir}.";;
 	*)
-		panic "Not cleaning install dir ${install_dir}. Does not look match *tmp*install.";;
+		panic "Not cleaning install dir ${install_dir}. Does not match '*tmp*/*install*'.";;
 	esac
 fi
 
@@ -138,6 +138,8 @@ if [ "$mode" = debug ]; then
 	configure_options+=(-DCMAKE_BUILD_TYPE=Debug)
 	configure_options+=(-DXV_ENABLE_ASAN=1)
 	configure_options+=(-DXV_ENABLE_UBSAN=1)
+elif [ "$mode" = release ]; then
+	configure_options+=(-DCMAKE_BUILD_TYPE=Release)
 fi
 if [ "$strict" -ne 0 ]; then
 	configure_options+=(-DXV_STRICT=1)
